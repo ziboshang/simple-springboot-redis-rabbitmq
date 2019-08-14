@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)https://getbootstrap.com/docs/4.3/examples/dashboard/# -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>借书系统</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/dashboard/main.html">
+
+    <!-- Bootstrap core CSS -->
+<link th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet"  crossorigin="anonymous">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link th:href="@{/dashboard.css}" href="dashboard.css" rel="stylesheet">
+  <style type="text/css">/* Chart.js */
+@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style></head>
+  <body>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="https://getbootstrap.com/docs/4.3/examples/dashboard/#main.html">[[${session.UserId}]]</a>
+
+  <ul class="navbar-nav px-3">
+    <li class="nav-item text-nowrap">
+      <a class="nav-link" th:href="@{'http://localhost:8080/main0?page=1&keyword='}">Sign out</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              图书列表 <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost:8080/now_reading">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+              已借阅
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost:8080/record_user">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+              历史记录
+            </a>
+          </li>
+
+
+
+        </ul>
+
+
+        <ul class="nav flex-column mb-2">
+
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+
+      <h2>图书列表</h2>
+
+
+      <form th:action="@{'http://localhost:8080/main'}"  method="get">
+        <input type="hidden" name="page" th:value="${nowpage}"/>
+        <input type="text" name="keyword" placeholder="搜素你想要的图书"/>
+        <input type="submit" value="查询"/>
+      </form>
+
+
+
+
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+          <tr>
+            <th>书名</th>
+            <th>类别</th>
+            <th>状态</th>
+            <th>操作</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="b:${books}">
+            <td th:text="${b.name}"></td>
+            <td th:text="${b.category}"></td>
+            <td th:if="${b.status eq 0}"  th:text="在库"></td>
+            <td th:if="${b.status eq 1}"  th:text="已被借出"></td>
+            <td><a th:if="${b.status eq 0}" th:href="@{'http://localhost:8080/borrow?bookid='+${b.id}+'&page='+${nowpage}+'&keyword='+${keyword}}">借阅</a></td>
+
+          </tr>
+          </tbody>
+        </table>
+
+        <label>当前第[[${nowpage}]]页</label>
+        <a th:href="@{'http://localhost:8080/main?page='+${prepage}+'&keyword='+${keyword}}">上一页</a>
+        <a th:href="@{'http://localhost:8080/main?page='+${nowpage+1}+'&keyword='+${keyword}}">下一页</a>
+        跳转到<input style="width:30px" type="text" id="turnpage"/>页
+        <input type="hidden" id="keyword" th:value="${keyword}">
+        <input type="submit" onclick="startrun()" value="跳转"/>
+
+        <script>
+            function startrun() {
+                var page = document.getElementById("turnpage").value;
+                var key= document.getElementById("keyword").value;
+                var shref = "http://localhost:8080/main?page="+page+"&keyword="+key;
+                window.location=shref;
+            }
+        </script>
+
+
+      </div>
+    </main>
+  </div>
+</div>
+<script src="./Dashboard Template · Bootstrap_files/jquery-3.3.1.slim.min.js.下载" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="./Dashboard Template · Bootstrap_files/bootstrap.bundle.min.js.下载" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+        <script src="./Dashboard Template · Bootstrap_files/feather.min.js.下载"></script>
+        <script src="./Dashboard Template · Bootstrap_files/Chart.min.js.下载"></script>
+        <script src="./Dashboard Template · Bootstrap_files/dashboard.js.下载"></script>
+
+</body></html>
